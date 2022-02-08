@@ -12,42 +12,18 @@ library(rgdal)
 library(ncdf4)
 library(lubridate)
 library(stringr)
-#library(tidyr)
-#library(ggplot2)
-#library(caTools)
-#library(RMAWGEN)
-#library(signal)
-#library(forecast)
-#library(futureheatwaves)
-#library(RmarineHeatWaves)
-#library(plyr)
-#library(dplyr)
-#library(vegan)
-#require(IRanges)
-#library(weathermetrics)
-#library(FactoMineR)
-#library(missMDA)
-#library(TTR)
-#library(pspline)
-#library(sfsmisc)
+
 library(raster)
-#library(rasterVis)
-#library(verification)
-#library(SpecsVerification)
-#library(s2dverification)
-#library(easyVerification)
-#library(PRROC)
-#library(SpatialVx)
-#library(extRemes)
-#library(gridExtra)
-#library("readxl")
+
 })
 set_Polypath(FALSE)
 
 ### Data directories and some parameters and functions
 
 #basepath="/research/geog/data1/kg312/RCCC/Sierra_Leone_floods/" 
-basepath="C:/Users/Yacou/Desktop/Yacouba_New/climte/Data/Temperature/CHIRTSdaily_v1.0_africa_netcdf_p05/Tmin/"
+#basepath="C:/Users/Yacou/Desktop/Yacouba_New/climte/Data/Temperature/CHIRTSdaily_v1.0_africa_netcdf_p05/Tmin/"
+basepath="C:/Users/Yacou/Desktop/Yacouba_New/climte/Data/Temperature/BEST_Temperature_Berkeley_Earth/nn/"
+
 #-----------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -59,7 +35,7 @@ shp=readOGR("C:\\Users\\Yacou\\Desktop\\Yacouba_New\\climte\\Data\\BFA_adm\\BFA_
 LZ_names=paste0("LZ",sprintf("%02d", 1:length(shp$NAME_2)))
 
 #### Read Precip data
-S= stack(paste0(basepath,"chirp_Tmin.nc") )#S= crop(stack(paste0(basepath,"Tamsat_complet_Precipitation_Burkina.nc"), extent(shp)) )
+S= stack(paste0(basepath,"Tmin.nc") )#S= crop(stack(paste0(basepath,"Tamsat_complet_Precipitation_Burkina.nc"), extent(shp)) )
 #x=crop(S,extent(shp))
 A=as.data.frame(t(extract(S,shp,mean,na.rm=T))) 
 colnames(A)= as.vector(LZ_names)
@@ -79,7 +55,7 @@ wakat$julian=yday(wakat$date)
 ######### Monthly  totals
 A=subset(cbind(wakat,A), year %in% c(2000:2017))
 Tminn#=A
-save(Tminn,file="C:/Users/Yacou/Desktop/Yacouba_New/climte/Data/Temperature/CHIRTSdaily_v1.0_africa_netcdf_p05/Tmin/data_output/Tminn.Rdata")
+save(Tminn,file="C:/Users/Yacou/Desktop/Yacouba_New/climte/Data/Temperature/BEST_Temperature_Berkeley_Earth/nn/Tminn.Rdata")
 
 #A=Tminn
 colnames(A)[6:50]=shp$NAME_2
@@ -91,7 +67,7 @@ colnames(A)[6:50]=shp$NAME_2
 B1=subset(A,month%in% 7:9)
 TNx=aggregate(B1[-c(1:5)],list(B1$year,B1$month),max)
 TNx=aggregate(TNx[-c(1:2)],list(TNx$Group.1),mean)
-write.csv(TNx, here::here("C:/Users/Yacou/Desktop/Yacouba_New/climte/Data/Temperature/CHIRTSdaily_v1.0_africa_netcdf_p05/Tmax/data_output/indices/","TNx.csv"),row.names = FALSE )
+write.csv(TNx, here::here("C:/Users/Yacou/Desktop/Yacouba_New/climte/Data/Temperature/BEST_Temperature_Berkeley_Earth/nn/indices/","TNx.csv"),row.names = FALSE )
 
 ######################################################
 
@@ -99,7 +75,7 @@ write.csv(TNx, here::here("C:/Users/Yacou/Desktop/Yacouba_New/climte/Data/Temper
 
 TNn=aggregate(B1[-c(1:5)],list(B1$year,B1$month),min)
 TNn=aggregate(TNn[-c(1:2)],list(TNn$Group.1),mean)
-write.csv(TNn, here::here("C:/Users/Yacou/Desktop/Yacouba_New/climte/Data/Temperature/CHIRTSdaily_v1.0_africa_netcdf_p05/Tmax/data_output/indices/","TNn.csv"),row.names = FALSE )
+write.csv(TNn, here::here("C:/Users/Yacou/Desktop/Yacouba_New/climte/Data/Temperature/BEST_Temperature_Berkeley_Earth/nn/indices/","TNn.csv"),row.names = FALSE )
 
 ## TN10p, cold nights: count of days where TN < 10th percentile
 

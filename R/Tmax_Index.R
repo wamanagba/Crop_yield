@@ -47,7 +47,9 @@ set_Polypath(FALSE)
 ### Data directories and some parameters and functions
 
 #basepath="/research/geog/data1/kg312/RCCC/Sierra_Leone_floods/" 
-basepath="C:/Users/Yacou/Desktop/Yacouba_New/climte/Data/Temperature/CHIRTSdaily_v1.0_africa_netcdf_p05/Tmax/"
+#basepath="C:/Users/Yacou/Desktop/Yacouba_New/climte/Data/Temperature/CHIRTSdaily_v1.0_africa_netcdf_p05/Tmax/"
+basepath="C:/Users/Yacou/Desktop/Yacouba_New/climte/Data/Temperature/BEST_Temperature_Berkeley_Earth/nn/"
+
 #-----------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -59,7 +61,7 @@ shp=readOGR("C:\\Users\\Yacou\\Desktop\\Yacouba_New\\climte\\Data\\BFA_adm\\BFA_
 LZ_names=paste0("LZ",sprintf("%02d", 1:length(shp$NAME_2)))
 
 #### Read Precip data
-S= stack(paste0(basepath,"chirp.nc") )#S= crop(stack(paste0(basepath,"Tamsat_complet_Precipitation_Burkina.nc"), extent(shp)) )
+S= stack(paste0(basepath,"Tmax.nc") )#S= crop(stack(paste0(basepath,"Tamsat_complet_Precipitation_Burkina.nc"), extent(shp)) )
 #x=crop(S,extent(shp))
 A=as.data.frame(t(extract(S,shp,mean,na.rm=T))) 
 Tmax=A
@@ -81,8 +83,8 @@ wakat$julian=yday(wakat$date)
 A=subset(cbind(wakat,A), year %in% c(2000:2017))
 #Tm#=A
 Tmax#=A
-save(Tmax,file="C:/Users/Yacou/Desktop/Yacouba_New/climte/Data/Temperature/CHIRTSdaily_v1.0_africa_netcdf_p05/Tmax/data_output/Tmax.Rdata")
-write.csv(t2, here::here("C:/Users/Yacou/Desktop/Yacouba_New/climte/Data/Temperature/CHIRTSdaily_v1.0_africa_netcdf_p05/Tmax/data_output","Tmax.csv"),row.names = FALSE )
+save(Tmax,file="C:/Users/Yacou/Desktop/Yacouba_New/climte/Data/Temperature/BEST_Temperature_Berkeley_Earth/nn/tmin.rdata")
+write.csv(t2, here::here("C:/Users/Yacou/Desktop/Yacouba_New/climte/Data/Temperature/BEST_Temperature_Berkeley_Earth/nn/","Tmax.csv"),row.names = FALSE )
 
 # ----------------------------------------------------------------------------------------------#
 #------------ TXx: monthly maximum value of daily maximum temperature --------------------------#
@@ -97,14 +99,14 @@ A=Tmax
 
 B1=subset(A,month%in% 7:9)
 TXx=aggregate(B1[-c(1:5)],list(B1$year),max)
-write.csv(TXx, here::here("C:/Users/Yacou/Desktop/Yacouba_New/climte/Data/Temperature/CHIRTSdaily_v1.0_africa_netcdf_p05/Tmax/data_output/indices/","TXx.csv"),row.names = FALSE )
+write.csv(TXx, here::here("C:/Users/Yacou/Desktop/Yacouba_New/climte/Data/Temperature/BEST_Temperature_Berkeley_Earth/nn/indices/","TXx.csv"),row.names = FALSE )
 
 ####################################################################
 
 # TXn: monthly minimum value of daily maximum temperature: 
 TXn=aggregate(B1[-c(1:5)],list(B1$year,B1$month),min)
 TXn=aggregate(TXn[-c(1:2)],list(TXn$Group.1),mean)
-write.csv(TXn, here::here("C:/Users/Yacou/Desktop/Yacouba_New/climte/Data/Temperature/CHIRTSdaily_v1.0_africa_netcdf_p05/Tmax/data_output/indices/","TXn.csv"),row.names = FALSE )
+write.csv(TXn, here::here("C:/Users/Yacou/Desktop/Yacouba_New/climte/Data/Temperature/BEST_Temperature_Berkeley_Earth/nn/indices/","TXn.csv"),row.names = FALSE )
 
 # =========================================================
 
