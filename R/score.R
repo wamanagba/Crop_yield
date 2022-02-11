@@ -4,9 +4,9 @@ library(broom)
 library(ggpubr)
 library(rgdal)
 NHSBoards <- readOGR("D:\\Yacouba_New\\climte\\Data\\BFA_adm\\BFA_adm2.shp",use_iconv = TRUE,encoding = "UTF-8")
-basepath= 'C:\\Users\\Yacou\\Desktop\\Yacouba_New\\climte\\code\\New folder\\New folder\\'
+basepath= 'C:\\Users\\Yacou\\Desktop\\Yacouba_New\\climte\\code\\Crop_yield\\python\\dern\\'
 #binary_precip$model
-binary_precip= read.table(paste0(basepath, "aaa.csv"), sep=",", dec=".", header=T)
+binary_precip= read.table(paste0(basepath, "mais_01.csv"), sep=",", dec=".", header=T)
 
 binary_precip=binary_precip[order(binary_precip$province), ]
 
@@ -48,12 +48,16 @@ score=function(model){
   return(map)
 }
 
+setwd(basepath)
+
 RidgeCV=score('RidgeCV')
 Lasso=score('Lasso')
 RandomForest=score('RandomForest')
 DecisionTree=score('DecisionTree')
 
-map=plot_grid(RidgeCV, Lasso, RandomForest,DecisionTree,
+png("map.png")
+map=plot_grid(RidgeCV,  RandomForest,
           label_size = 11)
 x11();map
 
+dev.off()
