@@ -44,7 +44,7 @@ score=function(model){
   
   
   map=map +geom_text(data = HBLabel, mapping = aes(x = label_long, y = label_lat, label = score, group = NA)
-                     , cex = 4, col = "white")
+                     , cex = 0, col = "white")
   return(map)
 }
 
