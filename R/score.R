@@ -6,7 +6,7 @@ library(rgdal)
 NHSBoards <- readOGR("D:\\Yacouba_New\\climte\\Data\\BFA_adm\\BFA_adm2.shp",use_iconv = TRUE,encoding = "UTF-8")
 basepath= 'C:\\Users\\Yacou\\Desktop\\Yacouba_New\\climte\\code\\Crop_yield\\python\\dern\\'
 #binary_precip$model
-binary_precip= read.table(paste0(basepath, "mil_02.csv"), sep=",", dec=".", header=T)
+binary_precip= read.table(paste0(basepath, "mil_03.csv"), sep=",", dec=".", header=T)
 
 binary_precip=binary_precip[order(binary_precip$province), ]
 
@@ -55,9 +55,10 @@ Lasso=score('Lasso')
 RandomForest=score('RandomForest')
 DecisionTree=score('DecisionTree')
 
-png("map2_mil.png")
+png("map4_mil.png")
 map=plot_grid(RidgeCV,  RandomForest,Lasso,DecisionTree,
           label_size = 11)
 x11();map
 
 dev.off()
+
